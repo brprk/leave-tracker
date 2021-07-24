@@ -67,4 +67,5 @@ def create_new_db(run):
         print("No DB Created")
 
 
-create_new_db(False)
+if __name__ == '__main__':
+    create_new_db()

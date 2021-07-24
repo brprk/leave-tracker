@@ -10,8 +10,8 @@ from methods import (Colleague,
                      LeaveAllocation,
                      get_colleague_list,
                      get_leave_types,
-                     get_leave_requests,
-                     get_colleagues,
+                     get_leave_requests_table,
+                     get_colleagues_table,
                      get_colleague
                      )
 
@@ -193,7 +193,7 @@ def new_leave_request():
 @app.route('/leave_requests', methods=['GET', 'POST'])
 def leave_requests():
     colleague_id = request.args.get('colleague_id', default=0, type=int)
-    requests = get_leave_requests(colleague_id)
+    requests = get_leave_requests_table(colleague_id)
     table = RequestsTable(requests)
     # needs to be colleague id of the current user
     return render_template('leave_requests.html', table=table, pages=generate_page_list())
@@ -201,7 +201,7 @@ def leave_requests():
 
 @app.route('/colleagues', methods=['GET', 'POST'])
 def colleagues():
-    colleagues = get_colleagues()
+    colleagues = get_colleagues_table()
     table = ColleaguesTable(colleagues)
     return render_template('colleagues.html', table=table, pages=generate_page_list())
 

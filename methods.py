@@ -1,6 +1,29 @@
 import sqlite3 as sl
+from numpy import busday_count
+from datetime import date, timedelta
+from dateutil import parser
+
 
 DATABASE = 'database.db'
+WORKING_DAYS = '1111100'
+PUBLIC_HOLIDAYS = [
+    '2020-01-01',
+    '2020-04-10',
+    '2020-04-13',
+    '2020-05-08',
+    '2020-05-25',
+    '2020-08-31',
+    '2020-12-25',
+    '2020-12-28',
+    '2021-01-01',
+    '2021-04-02',
+    '2021-04-05',
+    '2021-05-03',
+    '2021-05-31',
+    '2021-08-30',
+    '2021-12-27',
+    '2021-12-28'
+]
 
 
 def connect_to_db():
@@ -114,7 +137,7 @@ def get_leave_types():
     return leave_types
 
 
-def get_leave_requests(colleague_id):
+def get_leave_requests_table(colleague_id):
     query = f"""
                 SELECT 
                      r.id           id
@@ -135,7 +158,7 @@ def get_leave_requests(colleague_id):
     return leave_requests
 
 
-def get_colleagues():
+def get_colleagues_table():
     query = f"""
                 SELECT c.id     id
                       ,c.name   name
@@ -147,3 +170,38 @@ def get_colleagues():
             """
     colleagues = query_db(query, use_row_factory=True)
     return colleagues
+
+
+def calculate_leave_days(leave_start_date, leave_end_date, year):
+
+    # must convert YYYY-MM-DD to datetime.date
+    leave_start_date = parser.parse(leave_start_date).date()
+    leave_end_date = parser.parse(leave_end_date).date()
+
+    year_start = date(year, 1, 1)
+    year_end = date(year, 12, 31)
+
+    # leave days are only required for the
+    # year being considered
+    if leave_start_date <= year_start:
+        leave_start_date = year_start
+    else:
+        leave_start_date = leave_start_date
+
+    if leave_end_date >= year_end:
+        leave_end_date = year_end
+    else:
+        leave_end_date = leave_end_date
+
+    # busday_count excludes the end day
+    # so we offset by one day
+    leave_end_date += timedelta(days=1)
+
+    # must convert YYYY-MM-DD to datetime.date
+    for d in PUBLIC_HOLIDAYS:
+        parser.parse(d).date()
+
+    leave_days = busday_count(leave_start_date, leave_end_date, weekmask=WORKING_DAYS, holidays=PUBLIC_HOLIDAYS)
+
+    return leave_days
+
