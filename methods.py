@@ -172,7 +172,7 @@ def get_colleagues_table():
     return colleagues
 
 
-def calculate_leave_days(leave_start_date, leave_end_date, year):
+def calculate_net_leave_days(leave_start_date, leave_end_date, year):
 
     # must convert YYYY-MM-DD to datetime.date
     leave_start_date = parser.parse(leave_start_date).date()
