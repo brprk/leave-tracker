@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block title %}
+New Leave Request
+{% endblock %}
+
+{% block header %}Create a leave request{% endblock header%}
+
+{% block explain %}Fill in the form below and click submit to create a new leave request{% endblock explain%}
+
+{% block content %}{{ wtf.quick_form(form,button_map={'submit':'success'}) }}{% endblock content %}

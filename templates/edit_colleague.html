@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Edit Colleague
+{% endblock %}
+
+{% block header %}Edit a colleague{% endblock header%}
+
+{% block explain %}Fill in the form below and click submit to edit the colleague{% endblock explain%}
+
+{% block content %}{{ wtf.quick_form(form,button_map={'submit':'success'}) }}{% endblock content %}
+
+

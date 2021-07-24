@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Set Allocation Days
+{% endblock %}
+
+{% block header %}Set Allocation Days{% endblock header%}
+
+{% block explain %}Fill in the form below and click submit to set the allocated leave for a colleague in the given year{% endblock explain%}
+
+{% block content %}{{ wtf.quick_form(form,button_map={'submit':'success'}) }}{% endblock content %}
