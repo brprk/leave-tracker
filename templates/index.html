@@ -10,4 +10,59 @@ Leave Tracker Home
 
 {% block explain %}Submit, approve and track leave requests{% endblock explain%}
 
-{% block content %}{% endblock content %}
+{% block content %}
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="card text-white bg-danger text-center">
+      <div class="card-body">
+        <h1 class="card-title">12</h1>
+        <p class="card-text text-white">Leave Days Taken</p>
+        <!--<a href="#" class="btn btn-success">Go somewhere</a>-->
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card text-dark bg-warning text-center">
+      <div class="card-body">
+        <h1 class="card-title">4</h1>
+        <p class="card-text text-dark">Leave Days Pending</p>
+        <!--<a href="#" class="btn btn-success">Go somewhere</a>-->
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card text-white bg-success text-center">
+      <div class="card-body">
+        <h1 class="card-title">14</h1>
+        <p class="card-text text-white">Leave Days Remaining</p>
+        <!--<a href="#" class="btn btn-success">Go somewhere</a>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="line"></div>
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="card bg-light">
+      <div class="card-body">
+        <h6 class="card-title">Leave Doughnut Chart</h6>
+        <p class="card-text"></p>
+        <!--<a href="#" class="btn btn-success">Go somewhere</a>-->
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-8">
+    <div class="card bg-light">
+      <div class="card-body">
+        <h6 class="card-title">Leave Column Chart</h6>
+        <p class="card-text"></p>
+        <!--<a href="#" class="btn btn-success">Go somewhere</a>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

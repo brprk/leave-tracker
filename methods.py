@@ -274,6 +274,3 @@ def colleague_taken_leave_days(colleague_id, year):
     taken_leave_days = calc_total_leave_days(leave_requests, year)
 
     return taken_leave_days
-
-
-print(colleague_taken_leave_days(61, 2021))

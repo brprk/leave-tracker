@@ -8,4 +8,8 @@ New Leave Request
 
 {% block explain %}Fill in the form below and click submit to create a new leave request{% endblock explain%}
 
-{% block content %}{{ wtf.quick_form(form,button_map={'submit':'success'}) }}{% endblock content %}
+{% block content %}
+
+{{ wtf.quick_form(form,button_map={'submit':'success'}) }}
+
+{% endblock content %}
