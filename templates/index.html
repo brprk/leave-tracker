@@ -47,19 +47,85 @@ Leave Tracker Home
 <div class="row">
   <div class="col-sm-4">
     <div class="card bg-light">
+      <div class="card-header">
+        Leave Summary
+      </div>
       <div class="card-body">
-        <h6 class="card-title">Leave Doughnut Chart</h6>
-        <p class="card-text"></p>
-        <!--<a href="#" class="btn btn-success">Go somewhere</a>-->
+        <h6 class="card-title"></h6>
+        <canvas id="doughnut_chart" height="275"></canvas>
+        <script>
+          var pieData = [
+            {% for item, label, colors in set %}
+              {
+                value: {{item}},
+                label: "{{label}}",
+                color : "{{colors}}"
+              },
+            {% endfor %}
+          ];
+
+          // get bar chart canvas
+          var mychart = document.getElementById("doughnut_chart").getContext("2d");
+          steps = {{ doughnut_max }}
+          max = {{ doughnut_max }}
+
+          // draw pie chart
+          new Chart(document.getElementById("doughnut_chart").getContext("2d")).Doughnut(pieData);
+
+        </script>
       </div>
     </div>
   </div>
   <div class="col-sm-8">
     <div class="card bg-light">
+      <div class="card-header">
+        Leave by Month
+      </div>
       <div class="card-body">
-        <h6 class="card-title">Leave Column Chart</h6>
-        <p class="card-text"></p>
-        <!--<a href="#" class="btn btn-success">Go somewhere</a>-->
+        <h6 class="card-title"></h6>
+        <canvas id="column_chart" height="275"></canvas> <!--width="600" height="400"-->
+        <script>
+              // bar chart data
+              var barData = {
+                labels : [
+                  {% for item in bar_labels %}
+                   "{{ item }}",
+                  {% endfor %}
+            ],
+
+                datasets : [{
+                  fillColor: "#7386D5",
+                  strokeColor: "#7386D5",
+                  pointColor: "#7386D5",
+                  data : [
+                    {% for item in bar_values %}
+                       "{{ item }}",
+                      {% endfor %}
+                ]
+                  }
+                ]
+              }
+
+             // get bar chart canvas
+             var mychart = document.getElementById("column_chart").getContext("2d");
+
+               steps = {{max}}
+               max = {{max}}
+
+             // draw bar chart
+             new Chart(mychart).Bar(barData, {
+               scaleOverride: true,
+               scaleSteps: steps,
+               scaleStepWidth: Math.ceil(max / steps),
+               scaleStartValue: 0,
+               scaleShowVerticalLines: true,
+               scaleShowGridLines : true,
+               barShowStroke : true,
+               scaleShowLabels: true
+               }
+             );
+
+        </script>
       </div>
     </div>
   </div>

@@ -27,6 +27,17 @@ app.config.update(
 # Flask-Bootstrap requires this line
 Bootstrap(app)
 
+labels = [
+    'JAN', 'FEB', 'MAR', 'APR',
+    'MAY', 'JUN', 'JUL', 'AUG',
+    'SEP', 'OCT', 'NOV', 'DEC'
+]
+
+values = [
+    0,  2,  0,  6,
+    1,  5,  0,  2,
+    10, 1,  0,  3
+]
 
 def generate_page_list():
     pages = [
@@ -111,7 +122,23 @@ class ColleaguesTable(Table):
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
-    return render_template('index.html', pages=generate_page_list())
+    doughnut_labels = ['taken', 'pending', 'remaining']
+    doughnut_values = [12, 4, 14]
+    doughnut_colours = ['#dc3545', '#ffc107', '#28a745']
+    doughnut_max = 3
+    bar_labels = labels
+    bar_values = values
+    bar_max = 11
+    return render_template('index.html',
+                           pages=generate_page_list(),
+                           max=bar_max,
+                           bar_labels=bar_labels,
+                           bar_values=bar_values,
+                           doughnut_max=doughnut_max,
+                           set=zip(doughnut_values,
+                                   doughnut_labels,
+                                   doughnut_colours)
+                           )
 
 
 @app.route('/colleagues/new', methods=['GET', 'POST'])
