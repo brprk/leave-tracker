@@ -91,6 +91,18 @@ class LeaveRequest:
         query_db(query)
 
 
+class LeaveRequestTableElement:
+    """class that represents a request table element"""
+    def __init__(self, id, colleague_name, start_date, end_date, leave_type_name, status_name):
+        self.id = id
+        self.colleague_name = colleague_name
+        self.start_date = start_date
+        self.end_date = end_date
+        self.leave_type_name = leave_type_name
+        self.status_name = status_name
+
+
+
 class LeaveAllocation:
     """class that represents a colleague"""
     def __init__(self, colleague_id, year, allocated_days):
@@ -155,7 +167,17 @@ def get_leave_requests_table(colleague_id):
             """
     leave_requests = query_db(query, use_row_factory=True)
 
-    return leave_requests
+    result_list = []
+
+    for r in leave_requests:
+        result_list.append(LeaveRequestTableElement(id=r['id'],
+                                                    colleague_name=r['name'],
+                                                    start_date=r['start_date'],
+                                                    end_date=r['end_date'],
+                                                    leave_type_name=r['leave_type'],
+                                                    status_name=r['status']))
+
+    return result_list
 
 
 def get_colleagues_table():

@@ -56,7 +56,8 @@ def create_new_db(run):
                 INSERT INTO status (name) VALUES 
                 ('pending'),
                 ('approved'),
-                ('cancelled');
+                ('cancelled'),
+                ('declined');
             """)
             con.execute("""
                 INSERT INTO leave_type (name) VALUES 

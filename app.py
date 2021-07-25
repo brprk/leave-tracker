@@ -77,11 +77,23 @@ class RequestsTable(Table):
     classes = ['table', 'table-striped', 'table-bordered', 'no-wrap-centre']
     thead_classes = ['thead-purple']
     id = Col('Request ID')
-    name = Col('Colleague Name')
+    colleague_name = Col('Colleague Name')
     start_date = Col('Start Date')
     end_date = Col('End Date')
-    leave_type = Col('Leave Type')
-    status = Col('Request Status')
+    leave_type_name = Col('Leave Type')
+    status_name = Col('Request Status')
+
+    def get_tr_attrs(self, leaverequesttableelement):
+        if leaverequesttableelement.status_name == 'pending':
+            return {'class': 'table-warning'}
+        elif leaverequesttableelement.status_name == 'cancelled':
+            return {'class': 'table-secondary'}
+        elif leaverequesttableelement.status_name == 'approved':
+            return {'class': 'table-success'}
+        elif leaverequesttableelement.status_name == 'declined':
+            return {'class': 'table-danger'}
+        else:
+            return {}
 
 
 class ColleaguesTable(Table):
@@ -169,7 +181,7 @@ def new_leave_request():
     form = NewLeaveRequestForm()
     form.leave_type.choices = get_leave_types()
     form.colleague.choices = get_colleague_list()
-    message = ""
+
     if form.validate_on_submit():
         colleague = form.colleague.data
         start_date = form.start_date.data
