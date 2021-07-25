@@ -227,3 +227,53 @@ def calculate_net_leave_days(leave_start_date, leave_end_date, year):
 
     return leave_days
 
+
+def get_colleague_leave_requests(colleague_id, year):
+    query = f"""
+                SELECT
+                    start_date,
+                    end_date,
+                    leave_type_id,
+                    status_id
+                FROM leave_request
+                WHERE  colleague_id = {colleague_id}
+                  AND  status_id IN (1, 2) -- pending or approved
+                  AND (CAST(strftime('%Y', start_date) as integer) = {year} OR
+                       CAST(strftime('%Y', end_date)   as integer) = {year});
+            """
+
+    leave_requests = query_db(query, use_row_factory=True)
+
+    result_list = []
+
+    for r in leave_requests:
+        result_list.append(dict(start_date=r['start_date'],
+                                end_date=r['end_date'],
+                                leave_type_id=r['leave_type_id'],
+                                status_id=r['status_id']
+                                ))
+
+    return result_list
+
+
+def calc_total_leave_days(leave_requests, year):
+    total_leave_taken = 0
+    for l in leave_requests:
+        if not l['start_date'] > l['end_date']:
+            if l['leave_type_id'] == 2:  # half day
+                total_leave_taken += 0.5
+            else:
+                total_leave_taken += calculate_net_leave_days(l['start_date'],
+                                                              l['end_date'],
+                                                              year)
+    return total_leave_taken
+
+
+def colleague_taken_leave_days(colleague_id, year):
+    leave_requests = get_colleague_leave_requests(colleague_id, year)
+    taken_leave_days = calc_total_leave_days(leave_requests, year)
+
+    return taken_leave_days
+
+
+print(colleague_taken_leave_days(61, 2021))
